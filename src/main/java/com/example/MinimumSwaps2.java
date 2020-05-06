@@ -12,44 +12,23 @@ public class MinimumSwaps2 {
 
     // Complete the minimumSwaps function below.
     static int minimumSwaps(int[] arr) {
-        int minIndex = 0;
-        int min = arr[minIndex];
-        int diff=0;
-        boolean sort = false;
-        for (int i=1; i< arr.length; i++) {
-            if (min>arr[i]){
-                minIndex = i;
-                min = arr[minIndex];
-                sort = true;
-            }
-            if (arr[i] < arr[i-1]) {
-                sort = true;
-            }
-        }
-        if (!sort) {return 0;}
+        int[] indices = new int[arr.length];
         int swaps = 0;
-        int temp = 0;
-        if (minIndex != 0) {
-            temp = arr[0];
-            arr[0] = arr[minIndex];
-            arr[minIndex] = temp;
-            swaps = 1;
-            minIndex = 0;
+        for (int i=0; i< arr.length; i++) {
+           indices[arr[i] - 1] = i;
         }
-        for (int i=1; i<arr.length;){
-            diff = arr[i] - arr[i-1];
-            if (diff == 1) {
-                minIndex = i;
-                 i++;
-            } else {
-                temp = arr[minIndex + diff];
-                arr[minIndex + diff] = arr[i];
+        for (int i=0; i<arr.length;i++){
+            int swapIndex = indices[i];
+            if (swapIndex != i) {
+                int temp = arr[swapIndex];
+                indices[temp-1] = i;
+                indices[arr[i] - 1] = swapIndex;
+                arr[swapIndex] = arr[i];
                 arr[i] = temp;
-                swaps ++;
+
+                swaps++;
             }
-
         }
-
         return swaps;
     }
 
